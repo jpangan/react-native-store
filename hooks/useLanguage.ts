@@ -7,7 +7,7 @@ export enum Language {
 }
 
 const useLanguage = () => {
-  let lang: Language = I18nManager.isRTL ? Language.AR : Language.EN;
+  const lang: Language = I18nManager.isRTL ? Language.AR : Language.EN;
 
   const changeLang = () => {
     I18nManager.forceRTL(!I18nManager.isRTL);
