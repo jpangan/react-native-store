@@ -4,12 +4,14 @@ import {
 } from '@reduxjs/toolkit';
 import { useDispatch } from "react-redux";
 
-import app from './app';
+import cart from "./cart";
+import environment from './environment';
 import listings from "./listings";
 import user from "./user";
 
 const rootReducer = combineReducers({
-  app,
+  cart,
+  environment,
   listings,
   user,
 });

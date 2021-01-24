@@ -3,13 +3,13 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { UserState, RequestStatus } from '../types';
 
 const initialState: UserState = {
-  data: {},
+  data: [],
   error: undefined,
   status: RequestStatus.init,
 };
 
 const appSlice = createSlice({
-  name: 'user',
+  name: 'cart',
   initialState,
   reducers: {
   },

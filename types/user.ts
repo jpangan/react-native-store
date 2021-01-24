@@ -1,3 +1,3 @@
-export interface User {
-  lang?: string;
-}
+import { SliceState } from "./state";
+
+export interface UserState extends SliceState {}

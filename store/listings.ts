@@ -1,8 +1,12 @@
 import { createSlice, SerializedError } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import { AppState } from "../types";
+import { ListingsState, RequestStatus } from "../types";
 
-const initialState: AppState = {};
+const initialState: ListingsState = {
+  data: [],
+  error: undefined,
+  status: RequestStatus.init,
+};
 
 const appSlice = createSlice({
   name: "listings",

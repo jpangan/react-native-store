@@ -1,4 +1,4 @@
-import { createSlice   } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import { AppState } from '../types';
 
@@ -7,7 +7,7 @@ const initialState: AppState = {
 };
 
 const appSlice = createSlice({
-  name: 'app',
+  name: 'environment',
   initialState,
   reducers: {
     changeLang(state, action) {
