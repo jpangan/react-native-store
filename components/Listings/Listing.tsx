@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { Product } from '../../types';
 import {
 	StyleSheet,
@@ -21,7 +21,7 @@ const Listing = (props: React.FC<Product>) => {
 	return (
 		<View style={styles.root}>
 			<View style={styles.imageWrapper}>
-				{image ? <Image source={{ uri: image, cache:'force-cache' }} style={styles.image} /> : null}
+				{image ? <Image source={{ uri: image}} style={styles.image} /> : null}
 			</View>
 			<View style={styles.infoWrapper}>
 				<Text ellipsizeMode="tail" style={styles.title} numberOfLines={2} >{title}</Text>
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		padding: 16,
+		backgroundColor: Colors.White,
 	},
 	imageWrapper: {
 		flex: 1,

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../store';
 import {
@@ -19,6 +19,7 @@ const Listings = () => {
 	const {data, error, status, page} = useSelector((state:RootState) => state.listings);
 	const dispatch = useDispatch();
 	const [refreshing, setRefreshing] = useState(false);
+	const isLoadingRef = useRef(false);
 
 	const renderItem = ({ item }: any) => (<TouchableOpacity key={item.key} >
 		<Listing {...item} />
@@ -30,35 +31,42 @@ const Listings = () => {
 }
 
 	const handleLoadMore = () => {
-		if(status === RequestStatus.pending) {
+		if (isLoadingRef.current) {
 			return;
 		}
 		dispatch(getProductsRequest());
 	}
 
 	const getInitialData = () => {
+		if (isLoadingRef.current) {
+			return;
+		}
 		dispatch(resetPage());
 		dispatch(getProductsRequest());
 	}
 
+	const showEmpty = !data.length && (status !== RequestStatus.init && status !== RequestStatus.pending);
+
 	useEffect(() => {
+		console.log("mounted");
 		getInitialData();
 	}, []);
 
 	useEffect(() => {
 		if(status !== RequestStatus.pending) {
 			setRefreshing(false);
+			isLoadingRef.current = false;
+		} else {
+			isLoadingRef.current = true;
 		}
 	}, [status]);
 
-	const showEmpty = !data.length && (status !== RequestStatus.init && status !== RequestStatus.pending);
-
 	return (<FlatList
 		style={listingStyles.container}
-		keyExtractor={(item, index) => `${item.id}-${index}`}
+		removeClippedSubviews={true}
+		keyExtractor={(item, index) => index.toString()}
 		maxToRenderPerBatch={20}
 		initialNumToRender={20}
-		removeClippedSubviews={true}
 		data={data}
 		extraData={data}
 		renderItem={renderItem}

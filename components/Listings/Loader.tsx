@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
 	skeleton: {
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
+		backgroundColor: '#fff'
 	},
 	listingItem: {
 		flex: 1,
