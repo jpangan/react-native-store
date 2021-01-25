@@ -1,25 +1,27 @@
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
-import Colors from '../constants/Colors';
+import {Colors} from '../constants/theme';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/Home';
+import ShoppingCartScreen from '../screens/ShoppingCart';
+import ProductDetailScreen from '../screens/ProductDetails';
 import ProfileScreen from '../screens/Profile';
 import { BottomTabParamList, HomeParamList, ProfileParamList } from '../types';
-import {User, Home} from '../components/Icons';
+import {User} from '../components/Icons';
+import ShoppingCartButton from '../components/ShoppingCartButton';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
-        activeTintColor: Colors[colorScheme].tint,
+        activeTintColor: Colors.Flame,
+        inactiveTintColor: Colors.Grease,
         adaptive: false,
         keyboardHidesTabBar: true,
       }}>
@@ -27,7 +29,7 @@ export default function BottomTabNavigator() {
         name="Home"
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Home fill={color}/>,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home-outline" size={28} color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -51,7 +53,28 @@ function HomeNavigator() {
       <TabOneStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerTitle: 'Home' }}
+        options={{
+          headerLeft: null,
+          headerTitle: 'Home',
+          headerRight: ShoppingCartButton,
+         }}
+      />
+      <TabOneStack.Screen
+        name="ProductDetailScreen"
+        component={ProductDetailScreen}
+        options={{
+          headerTitle: 'Product Detail',
+          headerBackTitleVisible: false,
+          headerRight: ShoppingCartButton,
+        }}
+      />
+      <TabOneStack.Screen
+        name="ShoppingCartScreen"
+        component={ShoppingCartScreen}
+        options={{
+          headerTitle: 'Your Cart',
+          headerBackTitleVisible: false,
+        }}
       />
     </TabOneStack.Navigator>
   );
@@ -65,7 +88,19 @@ function ProfileNavigator() {
       <TabTwoStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ headerTitle: 'Profile' }}
+        options={{
+          headerTitle: 'Profile',
+          headerBackTitleVisible: false,
+          headerRight: ShoppingCartButton,
+        }}
+      />
+      <TabTwoStack.Screen
+        name="ShoppingCartScreen"
+        component={ShoppingCartScreen}
+        options={{
+          headerTitle: 'Your Cart',
+          headerBackTitleVisible: false,
+        }}
       />
     </TabTwoStack.Navigator>
   );

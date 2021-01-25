@@ -1,14 +1,14 @@
 
 import React,{useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { getProductsRequest } from '../store/listings';
 import Listings from '../components/Listings';
 
 export default function Home() {
-  return (<View style={styles.container}>
+  return (<SafeAreaView style={styles.container}>
       <Listings/>
-    </View>);
+  </SafeAreaView>);
 }
 
 const styles = StyleSheet.create({

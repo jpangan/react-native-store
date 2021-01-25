@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../store';
+import {useNavigation} from '@react-navigation/native';
 import {
 	TouchableOpacity,
 	FlatList,
@@ -17,11 +18,16 @@ import {
 
 const Listings = () => {
 	const {data, error, status, page} = useSelector((state:RootState) => state.listings);
+	const navigation = useNavigation()
 	const dispatch = useDispatch();
 	const [refreshing, setRefreshing] = useState(false);
 	const isLoadingRef = useRef(false);
 
-	const renderItem = ({ item }: any) => (<TouchableOpacity key={item.key} >
+	const viewDetail = item => {
+		navigation.navigate('ProductDetailScreen', item);
+	}
+
+	const renderItem = ({ item }: any) => (<TouchableOpacity onPress={() => viewDetail(item)} key={item.key} >
 		<Listing {...item} />
 	</TouchableOpacity>)
 
