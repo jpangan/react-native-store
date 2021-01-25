@@ -15,7 +15,12 @@ export default function useCachedResources() {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+          "space-mono": require("../assets/fonts/SpaceMono-Regular.ttf"),
+          "maven-pro": require("../assets/fonts/MavenPro-Regular.ttf"),
+          "maven-pro-medium": require("../assets/fonts/MavenPro-Medium.ttf"),
+          "maven-pro-semibold": require("../assets/fonts/MavenPro-SemiBold.ttf"),
+          "maven-pro-bold": require("../assets/fonts/MavenPro-Bold.ttf"),
+          "maven-pro-black": require("../assets/fonts/MavenPro-Black.ttf"),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
