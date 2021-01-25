@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { Product } from '../../types';
 import {
 	StyleSheet,
@@ -8,28 +8,21 @@ import {
 } from 'react-native';
 import { Colors, Font} from '../../constants/theme';
 
-const Listing = (props: React.FC<Product>) => {
-	const {
-		category,
-		description,
-		id,
-		image,
-		price,
-		title
-	} = props;
-
-	return (
-		<View style={styles.root}>
-			<View style={styles.imageWrapper}>
-				{image ? <Image source={{ uri: image}} style={styles.image} /> : null}
+class Listing extends React.PureComponent {
+	render() {
+		return (
+			<View style={styles.root}>
+				<View style={styles.imageWrapper}>
+					{this.props.image ? <Image source={{ uri: this.props.image }} style={styles.image} /> : null}
+				</View>
+				<View style={styles.infoWrapper}>
+					<Text ellipsizeMode="tail" style={styles.title} numberOfLines={2} >{this.props.title}</Text>
+					<Text ellipsizeMode="tail" style={styles.category} numberOfLines={1}>{this.props.category}</Text>
+					<Text ellipsizeMode="tail" style={styles.price}><Text style={styles.currency}>AED</Text> {this.props.price}</Text>
+				</View>
 			</View>
-			<View style={styles.infoWrapper}>
-				<Text ellipsizeMode="tail" style={styles.title} numberOfLines={2} >{title}</Text>
-				<Text ellipsizeMode="tail" style={styles.category} numberOfLines={1}>{category}</Text>
-				<Text ellipsizeMode="tail" style={styles.price}><Text style={styles.currency}>AED</Text> {price}</Text>
-			</View>
-		</View>
-	)
+		)
+	}
 }
 
 const styles = StyleSheet.create({
@@ -37,7 +30,6 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		padding: 16,
-		backgroundColor: Colors.White,
 	},
 	imageWrapper: {
 		flex: 1,

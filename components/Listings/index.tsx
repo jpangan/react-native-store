@@ -63,7 +63,7 @@ const Listings = () => {
 
 	return (<FlatList
 		style={listingStyles.container}
-		removeClippedSubviews={true}
+		removeClippedSubviews={false}
 		keyExtractor={(item, index) => index.toString()}
 		maxToRenderPerBatch={20}
 		initialNumToRender={20}
