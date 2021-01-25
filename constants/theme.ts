@@ -1,4 +1,4 @@
-export enum font  {
+export enum Font  {
 	MavenProNormal = "maven-pro",
 	MavenProMedium = "maven-pro-medium",
 	MavenProSemibold = "maven-pro-semibold",
@@ -7,7 +7,7 @@ export enum font  {
 }
 
 
-export enum colors  {
+export enum Colors  {
 	Flame = '#e00000',
   Ink = '#212223',
   White = '#fff',

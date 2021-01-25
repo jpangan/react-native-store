@@ -1,6 +1,7 @@
 import {
   configureStore,
   combineReducers,
+  getDefaultMiddleware,
 } from '@reduxjs/toolkit';
 import { useDispatch } from "react-redux";
 
@@ -24,4 +25,8 @@ export const useAppDispatch = () => useDispatch<AppDispatch>() // Export a hook 
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+    immutableCheck: false,
+  }),
 });

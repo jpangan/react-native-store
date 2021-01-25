@@ -6,7 +6,7 @@ import {
 	View,
 	Image,
 } from 'react-native';
-import {colors, font} from '../../constants/theme';
+import { Colors, Font} from '../../constants/theme';
 
 const Listing = (props: React.FC<Product>) => {
 	const {
@@ -17,11 +17,6 @@ const Listing = (props: React.FC<Product>) => {
 		price,
 		title
 	} = props;
-
-	if(image){
-		// Image.prefetch({ uri: image });
-	}
-
 
 	return (
 		<View style={styles.root}>
@@ -65,23 +60,23 @@ const styles = StyleSheet.create({
 		flexShrink: 1,
 	},
 	title: {
-		fontFamily: font.MavenProNormal,
+		fontFamily: Font.MavenProNormal,
 		fontSize: 15,
 		lineHeight: 18,
-		color: colors.Grease,
+		color: Colors.Grease,
 		marginBottom: 6,
 		minHeight: 36,
 	},
 	category: {
-		fontFamily: font.MavenProNormal,
+		fontFamily: Font.MavenProNormal,
 		fontSize: 12,
-		color: colors.Charcoal,
+		color: Colors.Charcoal,
 		marginBottom: 6,
 	},
 	price: {
-		fontFamily: font.MavenProBold,
+		fontFamily: Font.MavenProBold,
 		fontSize: 17,
-		color: colors.Charcoal,
+		color: Colors.Charcoal,
 	},
 	currency: {
 		fontSize: 12,

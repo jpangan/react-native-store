@@ -8,11 +8,6 @@ import Listings from '../components/Listings';
 import { Text, View } from '../components/Themed';
 
 export default function Home() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getProductsRequest());
-  }, []);
-
   return (
     <View style={styles.container}>
       <Listings/>

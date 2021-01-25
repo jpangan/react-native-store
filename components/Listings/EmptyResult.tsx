@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, View, Text} from 'react-native';
-import {Carton} from './Icons';
-import {font, colors} from '../constants/theme';
+import {Carton} from '../Icons';
+import {Font, Colors} from '../../constants/theme';
 
 const EmptyResult = () => {
 	return (<View style={styles.root}>
@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
 		marginBottom: 16,
 	},
 	text: {
-		fontFamily: font.MavenProBold,
+		fontFamily: Font.MavenProBold,
 		fontWeight:'400',
 		fontSize: 16,
-		color: colors.Charcoal
+		color: Colors.Charcoal
 	}
 })
 

@@ -12,16 +12,30 @@ export const getProductsRequest:any = createAsyncThunk("listings/getProductsRequ
   fetch("https://fakestoreapi.com/products").then((res) => res.json()).then(res => res)
 );
 
+export const loadMoreProductRequest: any = createAsyncThunk(
+  "listings/loadMoreProductRequest",
+  () =>
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((res) => res)
+);
+
 const initialState: ListingsState = {
   data: [],
   error: undefined,
   status: RequestStatus.init,
+  page: 0,
 };
 
-const appSlice = createSlice({
+const listingSlice = createSlice({
   name: "listings",
   initialState,
-  reducers: {},
+  reducers: {
+    resetPage(state) {
+      state.page = 0;
+      state.data =[]
+    }
+  },
   extraReducers: {
     [HYDRATE]: (state, action) => {
       return { ...state, ...action.payload.listings };
@@ -29,10 +43,13 @@ const appSlice = createSlice({
     [getProductsRequest.pending]: (state, action: PendingAction<any>) => {
       state.status = RequestStatus.pending;
     },
-    [getProductsRequest.fulfilled]:(state, action: FulfilledAction<any, any>) =>{
-      console.log("action is fulfilled");
-      state.data = action.payload;
+    [getProductsRequest.fulfilled]: (
+      state,
+      action: FulfilledAction<any, any>
+    ) => {
+      state.data = state.data.concat(action.payload);
       state.status = RequestStatus.fulfilled;
+      state.page +=1;
     },
     [getProductsRequest.rejected]: (state, action: RejectedAction<any>) => {
       state.error = action.error;
@@ -41,6 +58,6 @@ const appSlice = createSlice({
   },
 });
 
-export const {} = appSlice.actions;
+export const {resetPage} = listingSlice.actions;
 
-export default appSlice.reducer;
+export default listingSlice.reducer;
