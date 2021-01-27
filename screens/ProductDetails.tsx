@@ -8,6 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const ProductDetailScreen = () => {
+	//TODO: Make a way to fetch from API (Low Priority).
 	const route = useRoute();
 	console.log(route.params.image);
 	return(

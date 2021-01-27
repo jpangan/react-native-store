@@ -18,7 +18,7 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Profile"
       tabBarOptions={{
         activeTintColor: Colors.Flame,
         inactiveTintColor: Colors.Grease,

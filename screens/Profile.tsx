@@ -1,29 +1,25 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Text, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import {View as ThemedView} from '../components/Themed';
+import Profile from '../components/Profile';
 
-export default function ProfileScreen() {
+
+
+const ProfileScreen = () => {
   return (
-    <ThemedView style={styles.container}>
-        <Text>Profile</Text>
+    <ThemedView style={styles.root}>
+      <Profile/>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+  }
 });
+
+export default ProfileScreen;

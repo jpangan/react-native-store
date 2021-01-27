@@ -8,7 +8,7 @@ const initialState: UserState = {
   status: RequestStatus.init,
 };
 
-const appSlice = createSlice({
+const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
@@ -20,6 +20,6 @@ const appSlice = createSlice({
   },
 });
 
-export const {} = appSlice.actions;
+export const {} = cartSlice.actions;
 
-export default appSlice.reducer;
+export default cartSlice.reducer;

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk, SerializedError } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import {
   ListingsState,
@@ -8,16 +8,12 @@ import {
   RequestStatus,
 } from "../types";
 
-export const getProductsRequest:any = createAsyncThunk("listings/getProductsRequest", () =>
-  fetch("https://fakestoreapi.com/products").then((res) => res.json()).then(res => res)
-);
-
-export const loadMoreProductRequest: any = createAsyncThunk(
-  "listings/loadMoreProductRequest",
+export const getProductsRequest: any = createAsyncThunk(
+  "listings/getProductsRequest",
   () =>
     fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((res) => res)
+      .then((resp) => resp.json())
+      .then((resp) => resp)
 );
 
 const initialState: ListingsState = {
@@ -37,9 +33,6 @@ const listingSlice = createSlice({
     }
   },
   extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return { ...state, ...action.payload.listings };
-    },
     [getProductsRequest.pending]: (state, action: PendingAction<any>) => {
       state.status = RequestStatus.pending;
     },

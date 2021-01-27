@@ -1,25 +1,55 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { HYDRATE } from 'next-redux-wrapper';
-import { UserState, RequestStatus } from '../types';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  PendingAction,
+  FulfilledAction,
+  RejectedAction,
+  RequestStatus,
+  UserState,
+} from "../types";
 
 const initialState: UserState = {
-  data: {},
+  data: {
+    address: {
+      number: null,
+      street: null,
+      city: null,
+      zipcode: null,
+    },
+    name: null,
+    username: null,
+    email: null,
+    phone: null,
+  },
   error: undefined,
   status: RequestStatus.init,
 };
 
-const appSlice = createSlice({
-  name: 'user',
+export const getProfileRequest: any = createAsyncThunk(
+  "profile/getProfileRequest",
+  () =>
+    fetch("https://fakestoreapi.com/users/10")
+      .then((resp) => resp.json())
+      .then((resp) => resp)
+);
+
+const userSlice = createSlice({
+  name: "user",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return { ...state, ...action.payload.user };
+    [getProfileRequest.pending]: (state, action: PendingAction<any>) => {
+      state.status = RequestStatus.pending;
+    },
+    [getProfileRequest.fulfilled]: (state, action: PendingAction<any>) => {
+      state.status = RequestStatus.fulfilled;
+      state.data = action.payload
+    },
+    [getProfileRequest.rejected]: (state, action: PendingAction<any>) => {
+      state.status = RequestStatus.pending;
     },
   },
 });
 
-export const {} = appSlice.actions;
+export const { } = userSlice.actions;
 
-export default appSlice.reducer;
+export default userSlice.reducer;

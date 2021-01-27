@@ -6,7 +6,7 @@ const initialState: AppState = {
   lang: 'en',
 };
 
-const appSlice = createSlice({
+const environmentSlice = createSlice({
   name: 'environment',
   initialState,
   reducers: {
@@ -23,6 +23,6 @@ const appSlice = createSlice({
 
 export const {
   changeLang,
- } = appSlice.actions;
+ } = environmentSlice.actions;
 
-export default appSlice.reducer;
+export default environmentSlice.reducer;
