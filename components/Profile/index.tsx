@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect, useState, useRef} from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text, View, RefreshControl, ScrollView, StyleSheet, Switch } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,9 @@ import {RootState} from '../../store';
 import {RequestStatus} from '../../types';
 import {Colors, Font} from '../../constants/theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import * as Notifications from 'expo-notifications';
+import BottomSheet from '../BottomSheet';
+import Map from '../Map';
+
 import {
 	allowsNotificationsAsync,
 	requestNotificationsPermissionsAsync,
@@ -19,7 +21,7 @@ const Profile = () => {
 	const dispatch = useDispatch();
 	const { data, status } = useSelector((state: RootState) => state.user);
 	const { name, username, address, email, phone } = data;
-
+	const bottomSheetRef = useRef();
 	const [refreshing, isRefreshing] = useState(false);
 	const [alertsEnabled, setAlertsEnabled] = useState(false);
 	const [locationsEnabled, setLocationsEnabled] = useState(false);
@@ -60,7 +62,11 @@ const Profile = () => {
 
 	const addNewAddress = async() => {
 		const {status} = await requestLocationPermissionsAsync();
-		setLocationsEnabled(status === 'granted' ? true: false)
+		if(status === 'granted') {
+			bottomSheetRef.current?.setModalVisible(true);
+		} else {
+			bottomSheetRef.current?.setModalVisible(false);
+		}
 	}
 
 	return (
@@ -71,7 +77,7 @@ const Profile = () => {
 		}>
 			<View style={styles.profileHeader}>
 				<View style={styles.avatar}>
-					<Text style={styles.avatarText}>J</Text>
+					<Text style={styles.avatarText}>{name?.firstname.charAt(0)}</Text>
 				</View>
 				<Text style={styles.fullName}>{name?.firstname} {name?.lastname}</Text>
 				<Text style={styles.userName}>{username ? `@${username}`: null}</Text>
@@ -91,6 +97,8 @@ const Profile = () => {
 							trackColor={{ false: Colors.White, true: Colors.Flame }}
 							ios_backgroundColor={Colors.White}
 							onValueChange={toggleNotification}
+							activeText={'On'}
+							inActiveText={'Off'}
 							value={alertsEnabled}
 						/>
 				</View>
@@ -99,11 +107,21 @@ const Profile = () => {
 				<Text style={styles.sectionName}>Address</Text>
 				<View style={styles.sectionValue}>
 					<TouchableOpacity onPress={addNewAddress}>
-							<View style={styles.addAddressBtn}>
-								<MaterialCommunityIcons name="map-plus" size={24} color={Colors.Denim} />
-								<Text style={styles.addAddressLink}>Add new address</Text>
-							</View>
-						</TouchableOpacity>
+						<View style={styles.addAddressBtn}>
+							<MaterialCommunityIcons name="map-plus" size={24} color={Colors.Denim} />
+							<Text style={styles.addAddressLink}>Add new address</Text>
+						</View>
+					</TouchableOpacity>
+
+					<BottomSheet bottomSheetRef={bottomSheetRef}>
+						<View style={styles.mapBox}>
+							{address.geolocation ? (<Map
+								latitude={parseInt(address.geolocation.lat)}
+								longitude={parseInt(address.geolocation.long)}
+							/>): null}
+						</View>
+					</BottomSheet>
+
 				</View>
 			</Section>
 			<Section>
@@ -199,7 +217,12 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontFamily: Font.MavenProSemibold,
 		marginStart: 4,
-	}
+	},
+	mapBox: {
+		height: 400,
+		padding: 16,
+		paddingBottom: 32,
+	},
 });
 
 export default Profile;

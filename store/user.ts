@@ -14,6 +14,7 @@ const initialState: UserState = {
       street: null,
       city: null,
       zipcode: null,
+      geolocation: null,
     },
     name: null,
     username: null,
@@ -27,7 +28,7 @@ const initialState: UserState = {
 export const getProfileRequest: any = createAsyncThunk(
   "profile/getProfileRequest",
   () =>
-    fetch("https://fakestoreapi.com/users/10")
+    fetch("https://fakestoreapi.com/users/6")
       .then((resp) => resp.json())
       .then((resp) => resp)
 );

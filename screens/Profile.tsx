@@ -4,8 +4,6 @@ import { ScrollView } from 'react-native';
 import {View as ThemedView} from '../components/Themed';
 import Profile from '../components/Profile';
 
-
-
 const ProfileScreen = () => {
   return (
     <ThemedView style={styles.root}>
