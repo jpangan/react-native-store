@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
@@ -7,26 +7,30 @@ import { getReverseGeoCode, getCurrentPositionAsync } from '../helpers';
 
 const LAT_DELTA = 0.007489843867194423;
 const LNG_DELTA = 0.011348920290146225;
-
-type Region = {
+interface Region {
   longitude: number;
   latitude: number;
   longitudeDelta: number;
   latitudeDelta: number;
-};
+}
+
+interface MapProps extends Region {
+  onSaveAddressFn?: Function;
+  currentAddress?: String;
+}
 
 const Map = ({
-  latitude = null,
-  longitude = null,
-  currentAddress = null,
-  onSaveAddressFn = null
-}) => {
+  latitude,
+  longitude,
+  currentAddress,
+  onSaveAddressFn
+}: MapProps) => {
   const mapRef = useRef();
   const [isLocating, setIsLocating] = useState(false);
-  const [formattedAddress, setFormattedAddress] = useState(currentAddress);
+  const [completeAddress, setCompleteAddress] = useState(currentAddress);
   const [region, setRegion] = useState({
-    longitude,
-    latitude,
+    latitude: typeof latitude === 'string' ? parseInt(latitude) : latitude,
+    longitude: typeof longitude === 'string' ? parseInt(longitude) : longitude,
     latitudeDelta: LAT_DELTA,
     longitudeDelta: LNG_DELTA
   });
@@ -49,25 +53,19 @@ const Map = ({
   };
 
   const saveAddress = () => {
-    console.log('saved address');
-
     if (typeof onSaveAddressFn === 'function') {
       onSaveAddressFn({
         latitude: region.latitude,
         longitude: region.longitude,
-        formattedAddress: formattedAddress
+        completeAddress: completeAddress
       });
     }
   };
 
   const onRegionChangeComplete = async (region: Region) => {
     const geoCode = await getReverseGeoCode(region);
-    setFormattedAddress(geoCode.results[0].formatted_address);
+    setCompleteAddress(geoCode.results[0].formatted_address);
   };
-
-  if (!latitude && !longitude) {
-    return null;
-  }
 
   return (
     <View style={styles.root}>
@@ -96,7 +94,7 @@ const Map = ({
 
       <View style={styles.addressWrapper}>
         <Text style={styles.address}>
-          {isLocating ? 'currently locating...' : formattedAddress}
+          {isLocating ? 'currently locating...' : completeAddress}
         </Text>
       </View>
       <View style={styles.mapControlWrapper}>

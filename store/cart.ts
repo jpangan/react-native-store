@@ -12,11 +12,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {},
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return { ...state, ...action.payload.user };
-    }
-  }
+  extraReducers: {}
 });
 
 export const {} = cartSlice.actions;

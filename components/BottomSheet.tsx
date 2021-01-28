@@ -7,10 +7,7 @@ interface BottomSheetProps extends ActionSheetProps {
   bottomSheetRef: any;
   children?: any;
 }
-const BottomSheet = ({
-  children,
-  bottomSheetRef = useRef()
-}: BottomSheetProps) => {
+const BottomSheet = ({ children, bottomSheetRef }: BottomSheetProps) => {
   const hideBottomSheet = () => {
     bottomSheetRef.current?.setModalVisible(false);
   };

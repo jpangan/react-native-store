@@ -2,7 +2,8 @@ import React,{useEffect, useState, useRef} from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text, View, RefreshControl, ScrollView, StyleSheet, Switch } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfileRequest } from '../../store/user';
+import { getProfileRequest, updateAddress} from '../../store/user';
+import { changeLang } from '../../store/environment';
 import {RootState} from '../../store';
 import {RequestStatus} from '../../types';
 import {Colors, Font} from '../../constants/theme';
@@ -20,6 +21,7 @@ import {
 const Profile = () => {
 	const dispatch = useDispatch();
 	const { data, status } = useSelector((state: RootState) => state.user);
+	const { lang } = useSelector((state:RootState) => state.environment);
 	const { name, username, address, email, phone } = data;
 	const bottomSheetRef = useRef();
 	const [refreshing, isRefreshing] = useState(false);
@@ -59,13 +61,27 @@ const Profile = () => {
 		setAlertsEnabled(previousState => !previousState);
 	}
 
-	const addNewAddress = async() => {
+	const setAddress = async() => {
 		const {status} = await requestLocationPermissionsAsync();
 		if(status === 'granted') {
-			bottomSheetRef.current?.setModalVisible(true);
+			return bottomSheetRef.current?.setModalVisible(true);
 		} else {
-			bottomSheetRef.current?.setModalVisible(false);
+			return bottomSheetRef.current?.setModalVisible(false);
 		}
+	}
+
+	const modifyAddress = async() => {
+		bottomSheetRef.current?.setModalVisible(true);
+	}
+
+	const saveCompleteAddress = newAddress => {
+		dispatch(updateAddress(newAddress));
+		bottomSheetRef.current?.setModalVisible(false);
+	}
+
+	const changeLanguage = () => {
+		console.log('change language');
+		dispatch(changeLang(lang === 'ar' ? 'en': 'ar'));
 	}
 
 	return (
@@ -82,58 +98,63 @@ const Profile = () => {
 				<Text style={styles.userName}>{username ? `@${username}`: null}</Text>
 			</View>
 			<Section>
-					<Text style={styles.sectionName}>Email</Text>
-					<Text style={styles.sectionValue}>{email}</Text>
-			</Section>
-			<Section>
-				<Text style={styles.sectionName}>Phone Number</Text>
-				<Text style={styles.sectionValue}>{phone}</Text>
-			</Section>
-			<Section>
-				<Text style={styles.sectionName}>Notification</Text>
-				<View style={styles.sectionValue}>
-						<Switch
-							trackColor={{ false: Colors.White, true: Colors.Flame }}
-							onValueChange={toggleNotification}
-							activeText={'On'}
-							inActiveText={'Off'}
-							value={alertsEnabled}
-						/>
+				<Text style={styles.nameWrapper}>Email</Text>
+				<View style={styles.valueWrapper}>
+					<Text style={styles.value}>{email}</Text>
 				</View>
 			</Section>
 			<Section>
-				<Text style={styles.sectionName}>Address</Text>
-				<View style={styles.sectionValue}>
-					<TouchableOpacity onPress={addNewAddress}>
-						<View style={styles.addAddressBtn}>
-							<MaterialCommunityIcons name="map-plus" size={24} color={Colors.Denim} />
-							<Text style={styles.addAddressLink}>Add new address</Text>
-						</View>
+				<Text style={styles.nameWrapper}>Phone Number</Text>
+				<View style={styles.valueWrapper}>
+					<Text style={styles.value}>{phone}</Text>
+				</View>
+			</Section>
+			<Section>
+				<Text style={styles.nameWrapper}>Notification</Text>
+				<View style={styles.valueWrapper}>
+					<Text style={styles.value}>{alertsEnabled ? 'Enabled' : 'Disabled'}</Text>
+					<TouchableOpacity onPress={toggleNotification}>
+						<Text style={styles.editLink}>Change</Text>
 					</TouchableOpacity>
 
-					<BottomSheet bottomSheetRef={bottomSheetRef}>
-						<View style={styles.mapBox}>
-							{address.geolocation ? (<Map
-								latitude={parseInt(address.geolocation.lat)}
-								longitude={parseInt(address.geolocation.long)}
-							/>): null}
-						</View>
-					</BottomSheet>
-
 				</View>
 			</Section>
 			<Section>
-				<Text style={styles.sectionName}>Notification</Text>
-				<Text style={styles.sectionValue}>
-					Alert is {alertsEnabled ? "enabled" : "disabled"}
-				</Text>
+				<Text style={styles.nameWrapper}>Address</Text>
+				<View style={styles.valueWrapper}>
+					<Text style={styles.value}>
+						{address.completeAddress}
+					</Text>
+
+					{address.completeAddress ? (
+						<TouchableOpacity onPress={modifyAddress}>
+							<Text style={styles.editLink}>Change</Text>
+						</TouchableOpacity>) : (<TouchableOpacity onPress={setAddress}>
+								<Text style={styles.editLink}>Add</Text>
+					</TouchableOpacity>)}
+				</View>
 			</Section>
+
 			<Section>
-				<Text style={styles.sectionName}>Location</Text>
-				<Text style={styles.sectionValue}>
-					Location is {locationsEnabled ? "enabled" : "disabled"}
-				</Text>
+				<Text style={styles.nameWrapper}>Language</Text>
+				<View style={styles.valueWrapper}>
+					<Text style={styles.value}>{lang === 'ar' ? 'Arabic': 'English'}</Text>
+					<TouchableOpacity onPress={changeLanguage}>
+						<Text style={styles.editLink}>Change</Text>
+					</TouchableOpacity>
+				</View>
 			</Section>
+
+		 	<BottomSheet bottomSheetRef={bottomSheetRef}>
+				<View style={styles.mapBox}>
+					{address.geolocation ? (<Map
+						latitude={address.geolocation.lat}
+						longitude={address.geolocation.long}
+						currentAddress={address.completeAddress}
+						onSaveAddressFn={saveCompleteAddress}
+					/>) : null}
+				</View>
+			</BottomSheet>
 		</ScrollView>
 	)
 }
@@ -194,17 +215,26 @@ const styles = StyleSheet.create({
 		flexDirection:'row',
 		minHeight:60
 	},
-	sectionName: {
+	nameWrapper: {
+		paddingHorizontal: 8,
 		fontSize: 16,
 		fontFamily: Font.MavenProMedium,
 		color: Colors.Grease,
-		flex:1,
+		flex:0.6,
 	},
-	sectionValue: {
-		flex: 1,
+	value: {
+		flex: 1.4,
 		fontSize: 16,
 		fontFamily: Font.MavenProNormal,
 		color: Colors.Grease,
+		justifyContent:'center'
+	},
+	valueWrapper: {
+		paddingHorizontal: 8,
+		flex: 1,
+		justifyContent:'space-between',
+		alignItems:'center',
+		flexDirection:'row'
 	},
 	addAddressBtn: {
 		flexDirection:'row',
@@ -216,6 +246,11 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontFamily: Font.MavenProSemibold,
 		marginStart: 4,
+	},
+	editLink: {
+		color: Colors.Denim,
+		fontSize: 16,
+		fontFamily: Font.MavenProSemibold,
 	},
 	mapBox: {
 		height: 500,

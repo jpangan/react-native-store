@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { State } from 'react-native-gesture-handler';
 import {
   PendingAction,
   FulfilledAction,
@@ -14,7 +15,8 @@ const initialState: UserState = {
       street: null,
       city: null,
       zipcode: null,
-      geolocation: null
+      geolocation: null,
+      completeAddress: null
     },
     name: null,
     username: null,
@@ -36,7 +38,19 @@ export const getProfileRequest: any = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    updateAddress(state, action) {
+      const { latitude, longitude, completeAddress } = action.payload;
+      state.data.address = {
+        ...state.data.address,
+        geolocation: {
+          lat: latitude,
+          long: longitude
+        },
+        completeAddress
+      };
+    }
+  },
   extraReducers: {
     [getProfileRequest.pending]: (state, action: PendingAction<any>) => {
       state.status = RequestStatus.pending;
@@ -54,6 +68,6 @@ const userSlice = createSlice({
   }
 });
 
-export const {} = userSlice.actions;
+export const { updateAddress } = userSlice.actions;
 
 export default userSlice.reducer;
