@@ -1,3 +1,3 @@
 export interface AppState {
-  lang?: string;
+    lang?: string;
 }

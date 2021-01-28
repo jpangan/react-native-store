@@ -1,3 +1,3 @@
 import { SliceState } from './state';
 
-export interface CartState extends SliceState{}
+export interface CartState extends SliceState {}

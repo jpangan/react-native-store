@@ -1,2 +1,2 @@
 export * from './notifications';
-export * from "./location";
+export * from './location';
