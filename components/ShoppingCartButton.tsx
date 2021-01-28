@@ -8,29 +8,27 @@ import { changeLang } from '../store/environment';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ShoppingCartButton = () => {
-    const { lang } = useSelector((state) => state.environment);
-    const dispatch = useDispatch();
-    const navigation = useNavigation();
+  const { lang } = useSelector((state) => state.environment);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
-    const flipScreen = async () => {
-        dispatch(changeLang(lang === 'ar' ? 'en' : 'ar'));
-    };
+  const flipScreen = async () => {
+    dispatch(changeLang(lang === 'ar' ? 'en' : 'ar'));
+  };
 
-    return (
-        <TouchableOpacity
-            onPress={() => navigation.navigate('ShoppingCartScreen')}
-        >
-            <View style={styles.root}>
-                <Ionicons name="cart-outline" size={32} color={Colors.Grease} />
-            </View>
-        </TouchableOpacity>
-    );
+  return (
+    <TouchableOpacity onPress={() => navigation.navigate('ShoppingCartScreen')}>
+      <View style={styles.root}>
+        <Ionicons name="cart-outline" size={32} color={Colors.Grease} />
+      </View>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
-    root: {
-        paddingHorizontal: 16
-    }
+  root: {
+    paddingHorizontal: 16
+  }
 });
 
 export default ShoppingCartButton;

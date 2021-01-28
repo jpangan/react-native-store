@@ -1,7 +1,7 @@
 import {
-    configureStore,
-    combineReducers,
-    getDefaultMiddleware
+  configureStore,
+  combineReducers,
+  getDefaultMiddleware
 } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
@@ -11,10 +11,10 @@ import listings from './listings';
 import user from './user';
 
 const rootReducer = combineReducers({
-    cart,
-    environment,
-    listings,
-    user
+  cart,
+  environment,
+  listings,
+  user
 });
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -24,9 +24,9 @@ export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>(); // Export a hook that can be reused to resolve types
 
 export const store = configureStore({
-    reducer: rootReducer,
-    middleware: getDefaultMiddleware({
-        serializableCheck: false,
-        immutableCheck: false
-    })
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+    immutableCheck: false
+  })
 });
