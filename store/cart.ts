@@ -5,21 +5,16 @@ import { UserState, RequestStatus } from '../types';
 const initialState: UserState = {
   data: [],
   error: undefined,
-  status: RequestStatus.init,
+  status: RequestStatus.init
 };
 
-const appSlice = createSlice({
+const cartSlice = createSlice({
   name: 'cart',
   initialState,
-  reducers: {
-  },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return { ...state, ...action.payload.user };
-    },
-  },
+  reducers: {},
+  extraReducers: {}
 });
 
-export const {} = appSlice.actions;
+export const {} = cartSlice.actions;
 
-export default appSlice.reducer;
+export default cartSlice.reducer;

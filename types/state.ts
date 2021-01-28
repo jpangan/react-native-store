@@ -10,5 +10,5 @@ export enum RequestStatus {
   init = 'init',
   pending = 'pending',
   fulfilled = 'fulfilled',
-  rejected = 'rejected',
+  rejected = 'rejected'
 }

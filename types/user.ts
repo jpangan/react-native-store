@@ -1,3 +1,3 @@
-import { SliceState } from "./state";
+import { SliceState } from './state';
 
 export interface UserState extends SliceState {}

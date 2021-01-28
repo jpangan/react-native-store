@@ -3,7 +3,7 @@ import RNRestart from 'react-native-restart';
 
 export enum Language {
   AR = 'ar',
-  EN = 'en',
+  EN = 'en'
 }
 
 const useLanguage = () => {
