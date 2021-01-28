@@ -54,7 +54,6 @@ const Listings = () => {
 	const showEmpty = !data.length && (status !== RequestStatus.init && status !== RequestStatus.pending);
 
 	useEffect(() => {
-		console.log("mounted");
 		getInitialData();
 	}, []);
 

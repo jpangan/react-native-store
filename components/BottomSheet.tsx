@@ -35,7 +35,6 @@ const hideBottomSheet = () => {
 				}>
 				<View>
 					{children}
-					<Text>YOUR CUSTOM COMPONENT INSIDE THE ACTIONSHEET</Text>
 				</View>
 			</ActionSheet>
 		</View>

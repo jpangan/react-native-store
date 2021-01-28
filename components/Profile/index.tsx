@@ -40,7 +40,6 @@ const Profile = () => {
 
 	const getNotificationSettings = async () => {
 		const isEnabled = await allowsNotificationsAsync();
-		console.log("Alerts are ", isEnabled);
 		setAlertsEnabled(isEnabled);
 	}
 
@@ -95,7 +94,6 @@ const Profile = () => {
 				<View style={styles.sectionValue}>
 						<Switch
 							trackColor={{ false: Colors.White, true: Colors.Flame }}
-							ios_backgroundColor={Colors.White}
 							onValueChange={toggleNotification}
 							activeText={'On'}
 							inActiveText={'Off'}
@@ -148,6 +146,7 @@ const styles = StyleSheet.create({
 	root: {
 		flex: 1,
 		width: '100%',
+		backgroundColor: Colors.White,
 	},
 	profileHeader: {
 		paddingVertical: 16,
@@ -219,7 +218,7 @@ const styles = StyleSheet.create({
 		marginStart: 4,
 	},
 	mapBox: {
-		height: 400,
+		height: 500,
 		padding: 16,
 		paddingBottom: 32,
 	},

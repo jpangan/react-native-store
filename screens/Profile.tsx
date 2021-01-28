@@ -1,14 +1,13 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native';
-import {View as ThemedView} from '../components/Themed';
+import { View } from 'react-native';
 import Profile from '../components/Profile';
 
 const ProfileScreen = () => {
   return (
-    <ThemedView style={styles.root}>
+    <View style={styles.root}>
       <Profile/>
-    </ThemedView>
+    </View>
   );
 }
 
