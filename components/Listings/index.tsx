@@ -15,6 +15,7 @@ import Loader from './Loader';
 import {
 	resetPage,
 	getProductsRequest, } from '../../store/listings';
+import { useSiteDirection } from '../AppDirectionProvider'
 
 const Listings = () => {
 	const {data, error, status, page} = useSelector((state:RootState) => state.listings);
@@ -22,6 +23,7 @@ const Listings = () => {
 	const dispatch = useDispatch();
 	const [refreshing, setRefreshing] = useState(false);
 	const isLoadingRef = useRef(false);
+	const { directionStyles } = useSiteDirection();
 
 	const viewDetail = item => {
 		navigation.navigate('ProductDetailScreen', item);
@@ -67,7 +69,10 @@ const Listings = () => {
 	}, [status]);
 
 	return (<FlatList
-		style={listingStyles.container}
+		style={[
+			listingStyles.container,
+			{ direction: directionStyles.direction}
+		]}
 		removeClippedSubviews={false}
 		keyExtractor={(item, index) => index.toString()}
 		maxToRenderPerBatch={20}

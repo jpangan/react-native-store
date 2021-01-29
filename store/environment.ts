@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { HYDRATE } from 'next-redux-wrapper';
 import { AppState } from '../types';
+import { I18nManager } from 'react-native';
 
 const initialState: AppState = {
-  lang: 'en'
+  lang: I18nManager.isRTL ? 'ar' : 'en'
 };
 
 const environmentSlice = createSlice({
@@ -15,9 +15,6 @@ const environmentSlice = createSlice({
     }
   },
   extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return { ...state, ...action.payload.app };
-    }
   }
 });
 

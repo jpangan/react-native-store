@@ -1,6 +1,5 @@
 import React,{useEffect, useState, useRef} from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Text, View, RefreshControl, ScrollView, StyleSheet, Switch } from 'react-native';
+import { Text, View, RefreshControl, ScrollView, StyleSheet, I18nManager } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfileRequest, updateAddress} from '../../store/user';
 import { changeLang } from '../../store/environment';
@@ -10,6 +9,7 @@ import {Colors, Font} from '../../constants/theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import BottomSheet from '../BottomSheet';
 import Map from '../Map';
+import { useSiteDirection } from '../../components/AppDirectionProvider';
 
 import {
 	allowsNotificationsAsync,
@@ -19,6 +19,7 @@ import {
 } from '../../helpers';
 
 const Profile = () => {
+	const { isRtl, directionStyles } = useSiteDirection();
 	const dispatch = useDispatch();
 	const { data, status } = useSelector((state: RootState) => state.user);
 	const { lang } = useSelector((state:RootState) => state.environment);
@@ -26,7 +27,6 @@ const Profile = () => {
 	const bottomSheetRef = useRef();
 	const [refreshing, isRefreshing] = useState(false);
 	const [alertsEnabled, setAlertsEnabled] = useState(false);
-	const [locationsEnabled, setLocationsEnabled] = useState(false);
 
 	useEffect(() => {
 		dispatch(getProfileRequest());
@@ -79,14 +79,21 @@ const Profile = () => {
 		bottomSheetRef.current?.setModalVisible(false);
 	}
 
-	const changeLanguage = () => {
-		console.log('change language');
+	useEffect(() => {
+		console.log("direction is changed.", I18nManager.isRTL)
+	}, [I18nManager.isRTL])
+
+	const changeDirection = async (language:string) => {
+		await forceRtl(language === 'ar' ? true : false);
+	}
+
+	const changeLanguage = async() => {
 		dispatch(changeLang(lang === 'ar' ? 'en': 'ar'));
 	}
 
 	return (
 		<ScrollView
-			style={styles.root}
+			style={[styles.root, {direction: directionStyles.direction}]}
 		refreshControl={
 			(<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />)
 		}>
@@ -221,13 +228,16 @@ const styles = StyleSheet.create({
 		fontFamily: Font.MavenProMedium,
 		color: Colors.Grease,
 		flex:0.6,
+		justifyContent:'flex-start',
+		textAlign:'left',
 	},
 	value: {
 		flex: 1.4,
 		fontSize: 16,
 		fontFamily: Font.MavenProNormal,
 		color: Colors.Grease,
-		justifyContent:'center'
+		justifyContent: 'flex-start',
+		textAlign: 'left',
 	},
 	valueWrapper: {
 		paddingHorizontal: 8,

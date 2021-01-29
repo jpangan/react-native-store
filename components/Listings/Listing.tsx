@@ -1,5 +1,4 @@
 import React, { ComponentProps } from 'react';
-import { Product } from '../../types';
 import {
 	StyleSheet,
 	Text,
@@ -7,6 +6,7 @@ import {
 	Image,
 } from 'react-native';
 import { Colors, Font} from '../../constants/theme';
+
 
 class Listing extends React.PureComponent {
 	render() {
@@ -53,6 +53,8 @@ const styles = StyleSheet.create({
 		flexShrink: 1,
 	},
 	title: {
+		justifyContent:'flex-start',
+		textAlign:'left',
 		fontFamily: Font.MavenProNormal,
 		fontSize: 15,
 		lineHeight: 18,
@@ -61,12 +63,16 @@ const styles = StyleSheet.create({
 		minHeight: 36,
 	},
 	category: {
+		justifyContent: 'flex-start',
+		textAlign: 'left',
 		fontFamily: Font.MavenProNormal,
 		fontSize: 12,
 		color: Colors.Charcoal,
 		marginBottom: 6,
 	},
 	price: {
+		justifyContent: 'flex-start',
+		textAlign: 'left',
 		fontFamily: Font.MavenProBold,
 		fontSize: 17,
 		color: Colors.Charcoal,
