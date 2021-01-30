@@ -94,3 +94,7 @@ Cart, Basic Cart implementation. With features like add to cart, edit cart. No n
 ### Hooks
 - `useCachedResources` - caches the resources like fonts and other media file (if any.)
 - `useLanguage` - hook that manages the language. In case there will be translations related functionality, this is the supposedly place for it.
+
+### Other
+- lint the app by `yarn lint`
+- apply and fix thel inting to the fixable parts `yarn prettify`
