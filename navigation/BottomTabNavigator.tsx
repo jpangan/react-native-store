@@ -19,7 +19,7 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="ShoppingCartScreen"
+      initialRouteName="Home"
       tabBarOptions={{
         activeTintColor: Colors.Flame,
         inactiveTintColor: Colors.Grease,

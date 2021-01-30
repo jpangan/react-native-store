@@ -14,8 +14,7 @@ import HorizontalRule from '../HorizontalRule';
 
 
 const Cart = () => {
-
-	const { items } = useSelector((state:RootState) => state.cart);
+	const { items, totalPrice, count } = useSelector((state:RootState) => state.cart);
 
 
 	useEffect(()=>{
@@ -30,7 +29,7 @@ const Cart = () => {
 		<SafeAreaView style={styles.root}>
 			<ScrollView stickyHeaderIndices={[0]}>
 				<View>
-					<Text>TOTAL</Text>
+					<Text>Subtotal for {count} items: AED {totalPrice}</Text>
 				</View>
 			</ScrollView>
 			<FlatList

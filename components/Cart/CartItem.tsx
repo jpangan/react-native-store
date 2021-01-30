@@ -9,9 +9,12 @@ import {
 import { Colors, Font} from '../../constants/theme';
 import Button from '../Button';
 import { EvilIcons } from '@expo/vector-icons';
+import {useDispatch} from 'react-redux';
+import {addToCart, removeFromCart, reduceQuantity} from '../../store/cart'
 
 
-const CartItem = ({ product, rest }) => {
+const CartItem = ({ product, ...rest }) => {
+		const dispatch = useDispatch();
 		return (
 			<View style={styles.root}>
 				<View style={styles.imageWrapper}>
@@ -32,16 +35,23 @@ const CartItem = ({ product, rest }) => {
 
 					<View style={styles.itemControlWrapper}>
 						<View style={styles.itemControls}>
-								<TouchableOpacity>
+								<TouchableOpacity onPress={() => dispatch(addToCart({id: product.id}))}>
 								<EvilIcons name="plus" size={24} colors={Colors.Grease} />
 								</TouchableOpacity>
 								<Text style={styles.quantity}>{product.quantity}</Text>
-								<TouchableOpacity>
+								{product.quantity > 1 ? (<TouchableOpacity onPress={() => dispatch(reduceQuantity({ id: product.id }))}>
 									<EvilIcons name="minus" size={24} colors={Colors.Grease} />
-								</TouchableOpacity>
+								</TouchableOpacity>):
+									<TouchableOpacity onPress={() => dispatch(removeFromCart({ id: product.id }))}>
+										<EvilIcons name="trash" size={24} colors={Colors.Grease} />
+									</TouchableOpacity>
+								}
+
+
+
 						</View>
 
-						<Button title='Delete' />
+						<Button title='Delete' onPress={() => dispatch(removeFromCart({ id: product.id }))} />
 					</View>
 				</View>
 				</View>

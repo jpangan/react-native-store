@@ -6,9 +6,9 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./",
+    "lint": "tsc --noEmit && eslint --ext .js,.ts,.tsx ./",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'",
-    "prettier:prettify": "npx prettier --write **/*.{js,jsx,ts,tsx,json} && npx prettier --write *.{js,jsx,ts,tsx,json}"
+    "prettify": "npx prettier --write **/*.{js,ts,tsx,json} && npx prettier --write **/*.{js,ts,tsx,json}"
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",

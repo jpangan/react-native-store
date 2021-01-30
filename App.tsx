@@ -5,8 +5,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import {store} from './store';
-import {Provider} from 'react-redux';
+import { store } from './store';
+import { Provider } from 'react-redux';
 import AppDirectionProvider from './components/AppDirectionProvider';
 
 function App() {
@@ -17,14 +17,14 @@ function App() {
     return null;
   } else {
     return (
-    <Provider store={store}>
-      <AppDirectionProvider>
-        <SafeAreaProvider>
-          <Navigation/>
-          <StatusBar />
-        </SafeAreaProvider>
-      </AppDirectionProvider>
-    </Provider>
+      <Provider store={store}>
+        <AppDirectionProvider>
+          <SafeAreaProvider>
+            <Navigation />
+            <StatusBar />
+          </SafeAreaProvider>
+        </AppDirectionProvider>
+      </Provider>
     );
   }
 }
