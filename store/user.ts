@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { State } from 'react-native-gesture-handler';
 import {
   PendingAction,
   FulfilledAction,

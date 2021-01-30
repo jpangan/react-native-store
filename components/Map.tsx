@@ -35,6 +35,10 @@ const Map = ({
     longitudeDelta: LNG_DELTA
   });
 
+  useEffect(() => {
+    locateUser();
+  }, []);
+
   const locateUser = async () => {
     setIsLocating(true);
     const { coords } = await getCurrentPositionAsync();
