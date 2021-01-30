@@ -1,5 +1,6 @@
 import React,{useEffect, useState, useRef} from 'react';
-import { Text, View, RefreshControl, ScrollView, StyleSheet, I18nManager } from 'react-native';
+import { Linking, Platform } from 'react-native';
+import { Text, View, RefreshControl, ScrollView, StyleSheet, AppState, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfileRequest, updateAddress} from '../../store/user';
 import { changeLang } from '../../store/environment';
@@ -16,10 +17,11 @@ import {
 	requestNotificationsPermissionsAsync,
 	disableNotificationsAsync,
 	requestLocationPermissionsAsync,
+	hasServiceEnabledAsync,
 } from '../../helpers';
 
 const Profile = () => {
-	const { isRtl, directionStyles } = useSiteDirection();
+	const { directionStyles } = useSiteDirection();
 	const dispatch = useDispatch();
 	const { data, status } = useSelector((state: RootState) => state.user);
 	const { lang } = useSelector((state:RootState) => state.environment);
@@ -27,11 +29,25 @@ const Profile = () => {
 	const bottomSheetRef = useRef();
 	const [refreshing, isRefreshing] = useState(false);
 	const [alertsEnabled, setAlertsEnabled] = useState(false);
+	const [locationEnabled, setLocationsEnabled] = useState(false);
 
 	useEffect(() => {
 		dispatch(getProfileRequest());
 		getNotificationSettings();
+		getLocationSettings();
+
+		AppState.addEventListener('change', handleAppStateChange);
+
+		return () => {
+			AppState.removeEventListener('change', handleAppStateChange);
+		}
 	}, []);
+
+	const handleAppStateChange = () => {
+		console.log('app state has changed!');
+		getNotificationSettings();
+		getLocationSettings();
+	}
 
 	useEffect(() => {
 		if(status === RequestStatus.fulfilled) {
@@ -39,10 +55,14 @@ const Profile = () => {
 		}
 	}, [status]);
 
-
 	const getNotificationSettings = async () => {
 		const isEnabled = await allowsNotificationsAsync();
 		setAlertsEnabled(isEnabled);
+	}
+
+	const getLocationSettings = async () => {
+		const { status } = await hasServiceEnabledAsync();
+		setLocationsEnabled(status === 'granted'? true : false);
 	}
 
 	const onRefresh = () => {
@@ -59,6 +79,19 @@ const Profile = () => {
 		}
 
 		setAlertsEnabled(previousState => !previousState);
+	}
+
+	const toggleLocationServices = async() => {
+		const { status } = await requestLocationPermissionsAsync();
+		console.log({ status })
+		if(status === 'granted' && !locationEnabled) {
+			setLocationsEnabled(true);
+		} else if (status === 'granted' && locationEnabled) {
+			showLocationOptions();
+		} else {
+			setLocationsEnabled(false);
+			showLocationOptions();
+		}
 	}
 
 	const setAddress = async() => {
@@ -79,12 +112,29 @@ const Profile = () => {
 		bottomSheetRef.current?.setModalVisible(false);
 	}
 
-	const changeDirection = async (language:string) => {
-		await forceRtl(language === 'ar' ? true : false);
-	}
-
 	const changeLanguage = async() => {
 		dispatch(changeLang(lang === 'ar' ? 'en': 'ar'));
+	}
+
+	const showLocationOptions = () => {
+		Alert.alert(
+			`Location is currently ${locationEnabled ? 'enabled' : 'disabled'} for this app.`,
+			`Would you want to ${locationEnabled ? 'disable' : 'enable'} location services on this app? This will take you to the settings and from there you can manage the location services.`,
+			[
+				{
+					text: "Cancel",
+					style: "cancel"
+				},
+				{ text: "OK", onPress: async() => {
+					if (Platform.OS == "ios") {
+						Linking.openURL(`app-settings:react-native-store`);
+					} else {
+						await Linking.openSettings();
+					}
+				} }
+			],
+			{ cancelable: true }
+		);
 	}
 
 	return (
@@ -100,29 +150,44 @@ const Profile = () => {
 				<Text style={styles.fullName}>{name?.firstname} {name?.lastname}</Text>
 				<Text style={styles.userName}>{username ? `@${username}`: null}</Text>
 			</View>
+
 			<Section>
 				<Text style={styles.nameWrapper}>Email</Text>
 				<View style={styles.valueWrapper}>
 					<Text style={styles.value}>{email}</Text>
 				</View>
 			</Section>
+
 			<Section>
 				<Text style={styles.nameWrapper}>Phone Number</Text>
 				<View style={styles.valueWrapper}>
 					<Text style={styles.value}>{phone}</Text>
 				</View>
 			</Section>
+
 			<Section>
 				<Text style={styles.nameWrapper}>Notification</Text>
 				<View style={styles.valueWrapper}>
-					<Text style={styles.value}>{alertsEnabled ? 'Enabled' : 'Disabled'}</Text>
+					<Text style={styles.value}>{alertsEnabled ? 'ON' : 'OFF'}</Text>
 					<TouchableOpacity onPress={toggleNotification}>
 						<Text style={styles.editLink}>Change</Text>
 					</TouchableOpacity>
 
 				</View>
 			</Section>
+
 			<Section>
+				<Text style={styles.nameWrapper}>Location</Text>
+				<View style={styles.valueWrapper}>
+					<Text style={styles.value}>{locationEnabled ? 'ON' : 'OFF'}</Text>
+					<TouchableOpacity onPress={toggleLocationServices}>
+						<Text style={styles.editLink}>Change</Text>
+					</TouchableOpacity>
+
+				</View>
+			</Section>
+
+			{locationEnabled ? (<Section>
 				<Text style={styles.nameWrapper}>Address</Text>
 				<View style={styles.valueWrapper}>
 					<Text style={styles.value}>
@@ -133,10 +198,11 @@ const Profile = () => {
 						<TouchableOpacity onPress={modifyAddress}>
 							<Text style={styles.editLink}>Change</Text>
 						</TouchableOpacity>) : (<TouchableOpacity onPress={setAddress}>
-								<Text style={styles.editLink}>Add</Text>
-					</TouchableOpacity>)}
+							<Text style={styles.editLink}>Add</Text>
+						</TouchableOpacity>)}
 				</View>
-			</Section>
+			</Section>): null}
+
 
 			<Section>
 				<Text style={styles.nameWrapper}>Language</Text>
