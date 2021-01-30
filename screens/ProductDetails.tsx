@@ -1,5 +1,4 @@
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   StyleSheet,
@@ -12,12 +11,14 @@ import {
 import { Colors, Font } from '../constants/theme';
 import { useRoute } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {useSiteDirection} from '../components/AppDirectionProvider'
 
 const ProductDetailScreen = () => {
   //TODO: Make a way to fetch from API (Low Priority).
   const route = useRoute();
+  const { directionStyles } = useSiteDirection();
   return (
-    <SafeAreaView style={styles.root}>
+    <SafeAreaView style={[styles.root, { direction: directionStyles.direction}]}>
       <ScrollView>
         <View style={styles.imageWrapper}>
           {route.params.image ? (
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   },
   detailsWrapper: {
-    padding: 16
+    padding: 16,
   },
   ctaWrapper: {
     padding: 8,
@@ -89,24 +90,32 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   title: {
+    justifyContent: 'flex-start',
+    textAlign: 'left',
     fontFamily: Font.MavenProMedium,
     fontSize: 18,
     color: Colors.Grease,
     marginBottom: 12
   },
   category: {
+    justifyContent: 'flex-start',
+    textAlign: 'left',
     fontFamily: Font.MavenProNormal,
     fontSize: 12,
     color: Colors.Clay,
     marginBottom: 12
   },
   description: {
+    justifyContent: 'flex-start',
+    textAlign: 'left',
     fontFamily: Font.MavenProNormal,
     fontSize: 14,
     color: Colors.Grease,
     marginBottom: 100
   },
   price: {
+    justifyContent: 'flex-start',
+    textAlign: 'left',
     fontFamily: Font.MavenProBold,
     fontSize: 18,
     color: Colors.Flame,

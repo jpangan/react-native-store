@@ -7,6 +7,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import {store} from './store';
 import {Provider} from 'react-redux';
+import AppDirectionProvider from './components/AppDirectionProvider';
 
 function App() {
   const isLoadingComplete = useCachedResources();
@@ -16,12 +17,14 @@ function App() {
     return null;
   } else {
     return (
-      <Provider store={store}>
+    <Provider store={store}>
+      <AppDirectionProvider>
         <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
+          <Navigation/>
           <StatusBar />
         </SafeAreaProvider>
-      </Provider>
+      </AppDirectionProvider>
+    </Provider>
     );
   }
 }

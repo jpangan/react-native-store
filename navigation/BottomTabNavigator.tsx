@@ -12,6 +12,7 @@ import ProfileScreen from '../screens/Profile';
 import { BottomTabParamList, HomeParamList, ProfileParamList } from '../types';
 import { User } from '../components/Icons';
 import ShoppingCartButton from '../components/ShoppingCartButton';
+import BackIconButton from '../components/BackIconButton';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -61,8 +62,8 @@ function HomeNavigator() {
         name="HomeScreen"
         component={HomeScreen}
         options={{
-          headerLeft: null,
           headerTitle: 'Home',
+          headerLeft: (props) => <BackIconButton {...props}/>,
           headerRight: ShoppingCartButton
         }}
       />
@@ -72,6 +73,7 @@ function HomeNavigator() {
         options={{
           headerTitle: 'Product Detail',
           headerBackTitleVisible: false,
+          headerLeft: (props) => <BackIconButton {...props}/>,
           headerRight: ShoppingCartButton
         }}
       />
@@ -80,7 +82,8 @@ function HomeNavigator() {
         component={ShoppingCartScreen}
         options={{
           headerTitle: 'Your Cart',
-          headerBackTitleVisible: false
+          headerBackTitleVisible: false,
+          headerLeft: (props) => <BackIconButton {...props}/>,
         }}
       />
     </TabOneStack.Navigator>
@@ -98,15 +101,8 @@ function ProfileNavigator() {
         options={{
           headerTitle: 'Profile',
           headerBackTitleVisible: false,
-          headerRight: ShoppingCartButton
-        }}
-      />
-      <TabTwoStack.Screen
-        name="ShoppingCartScreen"
-        component={ShoppingCartScreen}
-        options={{
-          headerTitle: 'Your Cart',
-          headerBackTitleVisible: false
+          headerRight: null,
+          headerLeft: BackIconButton
         }}
       />
     </TabTwoStack.Navigator>
