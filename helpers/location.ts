@@ -22,3 +22,7 @@ export const getCurrentPositionAsync = async () => {
     accuracy: Location.LocationAccuracy.Balanced
   });
 };
+
+export const hasServiceEnabledAsync = async () => {
+  return await Location.getPermissionsAsync();
+};

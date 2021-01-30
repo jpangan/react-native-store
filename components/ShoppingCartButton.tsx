@@ -5,16 +5,19 @@ import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
+import { useSiteDirection } from '../components/AppDirectionProvider';
 const ShoppingCartButton = () => {
   const navigation = useNavigation();
   const { count } = useSelector((state: RootState) => state.cart);
-
+  const { isRtl } = useSiteDirection();
   return (
     <TouchableOpacity onPress={() => navigation.navigate('ShoppingCartScreen')}>
       <View style={styles.root}>
         <Ionicons name="cart-outline" size={32} color={Colors.Grease} />
         {count > 0 ? (
-          <View style={styles.countWrapper}>
+          <View
+            style={[styles.countWrapper, isRtl ? { right: 0 } : { left: 0 }]}
+          >
             <Text style={styles.count}>{count}</Text>
           </View>
         ) : null}
@@ -31,7 +34,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Grease,
     flex: 0,
     position: 'absolute',
-    right: 0,
     top: 0,
     height: 20,
     minWidth: 20,
