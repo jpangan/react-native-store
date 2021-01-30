@@ -1,20 +1,11 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import * as Updates from 'expo-updates';
 import { Colors } from '../constants/theme';
-import { View, TouchableOpacity, StyleSheet, I18nManager } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { changeLang } from '../store/environment';
-import { useDispatch, useSelector } from 'react-redux';
 
 const ShoppingCartButton = () => {
-  const { lang } = useSelector((state) => state.environment);
-  const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const flipScreen = async () => {
-    dispatch(changeLang(lang === 'ar' ? 'en' : 'ar'));
-  };
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate('ShoppingCartScreen')}>

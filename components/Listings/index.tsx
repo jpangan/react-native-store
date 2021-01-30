@@ -15,10 +15,11 @@ import Loader from './Loader';
 import {
 	resetPage,
 	getProductsRequest, } from '../../store/listings';
+import {addToCart} from '../../store/cart';
 import { useSiteDirection } from '../AppDirectionProvider'
 
 const Listings = () => {
-	const {data, error, status, page} = useSelector((state:RootState) => state.listings);
+	const {data, error, status } = useSelector((state:RootState) => state.listings);
 	const navigation = useNavigation()
 	const dispatch = useDispatch();
 	const [refreshing, setRefreshing] = useState(false);
@@ -29,9 +30,10 @@ const Listings = () => {
 		navigation.navigate('ProductDetailScreen', item);
 	}
 
-	const renderItem = ({ item }: any) => (<TouchableOpacity onPress={() => viewDetail(item)} key={item.key} >
-		<Listing {...item} />
-	</TouchableOpacity>)
+	const renderItem = ({ item }: any) => (<Listing {...item}
+		onViewFn={() => viewDetail(item)}
+		addToCartFn={() => dispatch(addToCart(item))} key={item.key}
+		/> )
 
 	const handleRefresh = () => {
 		setRefreshing(true);

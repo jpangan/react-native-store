@@ -14,8 +14,7 @@ const environmentSlice = createSlice({
       state.lang = action.payload;
     }
   },
-  extraReducers: {
-  }
+  extraReducers: {}
 });
 
 export const { changeLang } = environmentSlice.actions;

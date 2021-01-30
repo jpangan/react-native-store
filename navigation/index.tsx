@@ -16,9 +16,8 @@ import { useSiteDirection } from '../components/AppDirectionProvider';
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
 export default function Navigation() {
-
   return (
-    <NavigationContainer  linking={LinkingConfiguration}>
+    <NavigationContainer linking={LinkingConfiguration}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -30,13 +29,16 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const { directionStyles } = useSiteDirection();
-  console.log(directionStyles);
+
   return (
-    <Stack.Navigator screenOptions={{
-      headerShown: false,
-      cardStyle:{
-        direction: directionStyles.direction
-      } }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: {
+          direction: directionStyles.direction
+        }
+      }}
+    >
       <Stack.Screen name="Root" component={BottomTabNavigator} />
       <Stack.Screen
         name="NotFound"

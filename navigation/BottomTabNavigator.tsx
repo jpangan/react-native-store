@@ -19,7 +19,7 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="Profile"
+      initialRouteName="ShoppingCartScreen"
       tabBarOptions={{
         activeTintColor: Colors.Flame,
         inactiveTintColor: Colors.Grease,
@@ -63,7 +63,7 @@ function HomeNavigator() {
         component={HomeScreen}
         options={{
           headerTitle: 'Home',
-          headerLeft: (props) => <BackIconButton {...props}/>,
+          headerLeft: (props) => <BackIconButton {...props} />,
           headerRight: ShoppingCartButton
         }}
       />
@@ -73,7 +73,7 @@ function HomeNavigator() {
         options={{
           headerTitle: 'Product Detail',
           headerBackTitleVisible: false,
-          headerLeft: (props) => <BackIconButton {...props}/>,
+          headerLeft: (props) => <BackIconButton {...props} />,
           headerRight: ShoppingCartButton
         }}
       />
@@ -83,7 +83,7 @@ function HomeNavigator() {
         options={{
           headerTitle: 'Your Cart',
           headerBackTitleVisible: false,
-          headerLeft: (props) => <BackIconButton {...props}/>,
+          headerLeft: (props) => <BackIconButton {...props} />
         }}
       />
     </TabOneStack.Navigator>
