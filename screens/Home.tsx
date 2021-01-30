@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { getProductsRequest } from '../store/listings';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { StyleSheet, SafeAreaView, View, Text } from 'react-native';
 import Listings from '../components/Listings';
+
+import { RootState } from '../store';
 
 export default function Home() {
   return (
