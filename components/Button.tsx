@@ -11,12 +11,18 @@ import {
 interface ButtonProps extends TouchableOpacityProps {
   children?: any;
   title?: string;
+  buttonStyle?: object;
 }
 
-const ShoppingCartButton = ({ children, title, ...rest }: ButtonProps) => {
+const ShoppingCartButton = ({
+  children,
+  title,
+  buttonStyle = {},
+  ...rest
+}: ButtonProps) => {
   return (
     <TouchableOpacity {...rest}>
-      <View style={styles.root}>
+      <View style={[styles.root, buttonStyle]}>
         {title ? <Text style={styles.text}>{title}</Text> : children}
       </View>
     </TouchableOpacity>
