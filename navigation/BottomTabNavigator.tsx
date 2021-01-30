@@ -2,9 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-
 import { Colors } from '../constants/theme';
-import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/Home';
 import ShoppingCartScreen from '../screens/ShoppingCart';
 import ProductDetailScreen from '../screens/ProductDetails';
