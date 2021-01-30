@@ -23,6 +23,6 @@ export const getCurrentPositionAsync = async () => {
   });
 };
 
-export const hasServiceEnabledAsync = async() => {
+export const hasServiceEnabledAsync = async () => {
   return await Location.getPermissionsAsync();
-}
+};

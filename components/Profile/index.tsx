@@ -11,6 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import BottomSheet from '../BottomSheet';
 import Map from '../Map';
 import { useSiteDirection } from '../../components/AppDirectionProvider';
+import * as IntentLauncher from 'expo-intent-launcher';
 
 import {
 	allowsNotificationsAsync,
@@ -44,7 +45,6 @@ const Profile = () => {
 	}, []);
 
 	const handleAppStateChange = () => {
-		console.log('app state has changed!');
 		getNotificationSettings();
 		getLocationSettings();
 	}
@@ -83,11 +83,11 @@ const Profile = () => {
 
 	const toggleLocationServices = async() => {
 		const { status } = await requestLocationPermissionsAsync();
-		console.log({ status })
 		if(status === 'granted' && !locationEnabled) {
 			setLocationsEnabled(true);
 		} else if (status === 'granted' && locationEnabled) {
 			showLocationOptions();
+			setLocationsEnabled(false);
 		} else {
 			setLocationsEnabled(false);
 			showLocationOptions();
@@ -117,9 +117,17 @@ const Profile = () => {
 	}
 
 	const showLocationOptions = () => {
+		let messageBody = `Would you want to ${locationEnabled ? 'disable' : 'enable'} location services on this app? This will take you to the settings and from there you can manage the location services.`;
+
+
+		if(Platform.OS != 'ios') {
+			messageBody = `Would you want to ${locationEnabled ? 'disable' : 'enable'} location services on this app? This will take you to the app settings and from there, find the Expo app and manage the location permissions.`;
+		}
+
+
 		Alert.alert(
 			`Location is currently ${locationEnabled ? 'enabled' : 'disabled'} for this app.`,
-			`Would you want to ${locationEnabled ? 'disable' : 'enable'} location services on this app? This will take you to the settings and from there you can manage the location services.`,
+			messageBody,
 			[
 				{
 					text: "Cancel",
@@ -127,9 +135,9 @@ const Profile = () => {
 				},
 				{ text: "OK", onPress: async() => {
 					if (Platform.OS == "ios") {
-						Linking.openURL(`app-settings:react-native-store`);
+						Linking.openURL(`app-settings:`);
 					} else {
-						await Linking.openSettings();
+						IntentLauncher.startActivityAsync(IntentLauncher.ACTION_APPLICATION_SETTINGS);
 					}
 				} }
 			],
