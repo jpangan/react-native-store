@@ -8,7 +8,6 @@ import {useSiteDirection} from '../AppDirectionProvider'
 
 const Skeleton = props => {
 	const {isRtl} = useSiteDirection();
-	console.log('isRtl', isRtl)
 	return (
 		<ContentLoader
 			speed={0.5}

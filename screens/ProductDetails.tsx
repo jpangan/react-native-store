@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,34 +9,57 @@ import {
   Text,
   Image
 } from 'react-native';
+import { addToCart } from '../store/cart';
 import { Colors, Font } from '../constants/theme';
 import { useRoute } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {useSiteDirection} from '../components/AppDirectionProvider'
+import { useSiteDirection } from '../components/AppDirectionProvider';
 
 const ProductDetailScreen = () => {
   //TODO: Make a way to fetch from API (Low Priority).
+  const [product, setProduct] = useState<object>({});
+  const [isInTheCart, setIsInTheCart] = useState(false);
+  const dispatch = useDispatch();
   const route = useRoute();
   const { directionStyles } = useSiteDirection();
+
+  useEffect(() => {
+    setProduct({
+      ...route.params
+    });
+
+    // Cleanup on unmount
+    return () => {
+      setProduct({});
+      setIsInTheCart(false);
+    };
+  }, []);
+
+  const addItemToCart = () => {
+    dispatch(addToCart(product));
+  };
+
   return (
-    <SafeAreaView style={[styles.root, { direction: directionStyles.direction}]}>
+    <SafeAreaView
+      style={[styles.root, { direction: directionStyles.direction }]}
+    >
       <ScrollView>
         <View style={styles.imageWrapper}>
-          {route.params.image ? (
-            <Image style={styles.image} source={{ uri: route.params.image }} />
+          {product.image ? (
+            <Image style={styles.image} source={{ uri: product.image }} />
           ) : null}
         </View>
         <View style={styles.detailsWrapper}>
-          <Text style={styles.title}>{route.params.title}</Text>
-          <Text style={styles.category}>in {route.params.category}</Text>
+          <Text style={styles.title}>{product.title}</Text>
+          <Text style={styles.category}>in {product.category}</Text>
           <Text style={styles.price}>
-            <Text style={styles.currency}>AED</Text> {route.params.price}
+            <Text style={styles.currency}>AED</Text> {product.price}
           </Text>
-          <Text style={styles.description}>{route.params.description}</Text>
+          <Text style={styles.description}>{product.description}</Text>
         </View>
       </ScrollView>
       <View style={styles.ctaWrapper}>
-        <TouchableOpacity style={styles.cta}>
+        <TouchableOpacity style={styles.cta} onPress={addItemToCart}>
           <MaterialCommunityIcons
             name="cart-plus"
             size={24}
@@ -64,7 +88,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   },
   detailsWrapper: {
-    padding: 16,
+    padding: 16
   },
   ctaWrapper: {
     padding: 8,

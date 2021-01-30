@@ -5,7 +5,9 @@ import {
 	View,
 	Image,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Colors, Font} from '../../constants/theme';
+import AddToCartButton from '../AddToCartButton';
 
 
 class Listing extends React.PureComponent {
@@ -13,12 +15,21 @@ class Listing extends React.PureComponent {
 		return (
 			<View style={styles.root}>
 				<View style={styles.imageWrapper}>
-					{this.props.image ? <Image source={{ uri: this.props.image }} style={styles.image} /> : null}
+					<TouchableOpacity onPress={this.props.onViewFn}>
+						{this.props.image ? <Image source={{ uri: this.props.image }} style={styles.image} /> : null}
+					</TouchableOpacity>
 				</View>
 				<View style={styles.infoWrapper}>
-					<Text ellipsizeMode="tail" style={styles.title} numberOfLines={2} >{this.props.title}</Text>
-					<Text ellipsizeMode="tail" style={styles.category} numberOfLines={1}>{this.props.category}</Text>
-					<Text ellipsizeMode="tail" style={styles.price}><Text style={styles.currency}>AED</Text> {this.props.price}</Text>
+					<TouchableOpacity onPress={this.props.onViewFn}>
+						<Text ellipsizeMode="tail" style={styles.title} numberOfLines={2} >{this.props.title}</Text>
+					</TouchableOpacity>
+					<View style={styles.addToCartWrapper}>
+						<View>
+							<Text ellipsizeMode="tail" style={styles.category} numberOfLines={1}>{this.props.category}</Text>
+							<Text ellipsizeMode="tail" style={styles.price}><Text style={styles.currency}>AED</Text> {this.props.price}</Text>
+						</View>
+						<AddToCartButton onPress={this.props.addToCartFn}/>
+					</View>
 				</View>
 			</View>
 		)
@@ -80,6 +91,12 @@ const styles = StyleSheet.create({
 	currency: {
 		fontSize: 12,
 		paddingEnd: 8,
+	},
+	addToCartWrapper: {
+		width: '100%',
+		flexDirection:'row',
+		justifyContent: 'space-between',
+		alignItems: 'flex-end',
 	}
 });
 

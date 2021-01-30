@@ -79,10 +79,6 @@ const Profile = () => {
 		bottomSheetRef.current?.setModalVisible(false);
 	}
 
-	useEffect(() => {
-		console.log("direction is changed.", I18nManager.isRTL)
-	}, [I18nManager.isRTL])
-
 	const changeDirection = async (language:string) => {
 		await forceRtl(language === 'ar' ? true : false);
 	}
