@@ -15,8 +15,6 @@ import * as IntentLauncher from 'expo-intent-launcher';
 
 import {
 	allowsNotificationsAsync,
-	requestNotificationsPermissionsAsync,
-	disableNotificationsAsync,
 	requestLocationPermissionsAsync,
 	hasServiceEnabledAsync,
 } from '../../helpers';

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { I18nManager, View } from 'react-native';
+import { I18nManager } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
