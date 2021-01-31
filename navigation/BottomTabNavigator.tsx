@@ -49,8 +49,6 @@ export default function BottomTabNavigator() {
   );
 }
 
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator<HomeParamList>();
 
 function HomeNavigator() {

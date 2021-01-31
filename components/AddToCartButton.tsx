@@ -5,7 +5,6 @@ import {
   StyleSheet
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useSiteDirection } from '../components/AppDirectionProvider';
 import { Colors } from '../constants/theme';
 
 interface BackIconButtonProps extends TouchableOpacityProps {}

@@ -12,7 +12,6 @@
 - Profile, User Profile where user can toggle RTL, Enable notification, Enable location, Manage Addresses
 Cart, Basic Cart implementation. With features like add to cart, edit cart. No need for APIs or checkout page - ✅
 
-
 ### Home Screen
 -  Build product listing screen - ✅
 -  Build pull to refresh - ✅
@@ -23,6 +22,8 @@ Cart, Basic Cart implementation. With features like add to cart, edit cart. No n
 >> - User can also add items using the home page. I added an add to cart button in every listing.
 >> - To be able to see the error toast, try to disable your network connection and it will start to show along with a empty screen component.
 >> - Once on the error state, try to enable your network and do a pull to refresh or press the OK link in the toast to see it working.
+>> - For the listing items, I just kept on hitting the same  endpoint on the load more functionality. Although i used the the index of an item as a key on the `FlatList` since id's will be repeated.
+
 
 ### Product Details  Screen
 - Build product detail screen - ✅
@@ -53,6 +54,7 @@ Cart, Basic Cart implementation. With features like add to cart, edit cart. No n
 >>> - Map is better to be used in the actual device so that you can zoom in/out by pinching on the map.
 >>> - I used a bottom sheet to show the map. Map will be initially centered in your current location.
 >>> - On every change of the map location, it will hit the reverse geocode API and then will get the `formatted_address` from the response where it will be shown on the bottom of the map.
+>>> - When opening the map using the simulator, the current location will be somewhere in US but once you use an actual device it will use your current location.
 >>> - Switching to RTL is handled by the language section (as a real life example). The app has capability of switching its direction without restarting the app. To achieve this, i utilized the Context Provider API and a hook. I created `AppDirectionProvider` component. It serves a provider where it stores two important values like `isRtl` & `directionStyles`. `isRtl` is a flag whether the app is in RTL or LTR mode. The `directionStyles` is an object where it contains either RTL or LTR styles. and based on the direction it selects the style from the declared variable called `rtlStyles` & `rtlStyles`. On the same `AppDirectionProvider` file, you wil see a hook called `useSiteDirection` where it returns the value of the  `SiteDirectionContext` context.
 
 

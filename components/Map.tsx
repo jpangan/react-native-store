@@ -4,9 +4,8 @@ import MapView, { Marker } from 'react-native-maps';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { Colors, Font } from '../constants/theme';
 import { getReverseGeoCode, getCurrentPositionAsync } from '../helpers';
+import { LAT_DELTA, LNG_DELTA } from '../constants';
 
-const LAT_DELTA = 0.007489843867194423;
-const LNG_DELTA = 0.011348920290146225;
 interface Region {
   longitude: number;
   latitude: number;

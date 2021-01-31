@@ -1,4 +1,4 @@
-import React, { useRef, useState, createRef, useEffect } from 'react';
+import React from 'react';
 import ActionSheet, { ActionSheetProps } from 'react-native-actions-sheet';
 import { View, StyleSheet, Text } from 'react-native';
 import CloseButtonIcon from './CloseButtonIcon';
