@@ -71,14 +71,7 @@ const Profile = () => {
 	}
 
 	const toggleNotification = () => {
-		// Notification request alert will only happen once.
-		if(alertsEnabled) {
-			disableNotificationsAsync()
-		} else {
-			requestNotificationsPermissionsAsync()
-		}
-
-		setAlertsEnabled(previousState => !previousState);
+		showNotificationOptions();
 	}
 
 	const toggleLocationServices = async() => {
@@ -140,6 +133,38 @@ const Profile = () => {
 						IntentLauncher.startActivityAsync(IntentLauncher.ACTION_APPLICATION_SETTINGS);
 					}
 				} }
+			],
+			{ cancelable: true }
+		);
+	}
+
+
+	const showNotificationOptions = () => {
+		let messageBody = `Would you want to ${alertsEnabled ? 'disable' : 'enable'} notification services on this app? This will take you to the settings and from there you can manage the notification services.`;
+
+
+		if (Platform.OS != 'ios') {
+			messageBody = `Would you want to ${alertsEnabled ? 'disable' : 'enable'} notification services on this app? This will take you to the app settings and from there, find the Expo app and manage the notification permissions.`;
+		}
+
+
+		Alert.alert(
+			`Location is currently ${alertsEnabled ? 'enabled' : 'disabled'} for this app.`,
+			messageBody,
+			[
+				{
+					text: "Cancel",
+					style: "cancel"
+				},
+				{
+					text: "OK", onPress: async () => {
+						if (Platform.OS == "ios") {
+							Linking.openURL(`app-settings:`);
+						} else {
+							IntentLauncher.startActivityAsync(IntentLauncher.ACTION_APPLICATION_SETTINGS);
+						}
+					}
+				}
 			],
 			{ cancelable: true }
 		);

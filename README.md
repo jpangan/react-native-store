@@ -1,6 +1,5 @@
 # Simple E-Commerce Application
 
-
 ## Foundation:
 - Ask to allow notification on the first time that the app opens. ✅
 - Build two bottom tabs - ✅
@@ -47,10 +46,11 @@ Cart, Basic Cart implementation. With features like add to cart, edit cart. No n
 ### Profile Screem
 - There are 4 buttons in profile screen - toggle rtl & enable notification & enable location & addresses - ✅
 - RTL Toggle - ✅
-- Enable notification and location button will lead user to the permission setting screen in your phone  - ✅  : *I only redirected the  user to settings when he is going to toggle locations, but for notification i kept him on the same app since it can be handled there naturally.*
+- Enable notification and location button will lead user to the permission setting screen in your phone  - ✅
 - **Other notes**:
 >>> - For the profile, i fetched the values from `/users/6` endpoint. i just needed a one user for the demo sake.
 >>> - For the map I used google reverse `geocode API` where i provide the `latitude`, `longitude`  and the `API key`. I used my personal API key for this. :)
+>>> - Map is better to be used in the actual device so that you can zoom in/out by pinching on the map.
 >>> - I used a bottom sheet to show the map. Map will be initially centered in your current location.
 >>> - On every change of the map location, it will hit the reverse geocode API and then will get the `formatted_address` from the response where it will be shown on the bottom of the map.
 >>> - Switching to RTL is handled by the language section (as a real life example). The app has capability of switching its direction without restarting the app. To achieve this, i utilized the Context Provider API and a hook. I created `AppDirectionProvider` component. It serves a provider where it stores two important values like `isRtl` & `directionStyles`. `isRtl` is a flag whether the app is in RTL or LTR mode. The `directionStyles` is an object where it contains either RTL or LTR styles. and based on the direction it selects the style from the declared variable called `rtlStyles` & `rtlStyles`. On the same `AppDirectionProvider` file, you wil see a hook called `useSiteDirection` where it returns the value of the  `SiteDirectionContext` context.
