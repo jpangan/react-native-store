@@ -10,30 +10,28 @@ import { Colors, Font} from '../../constants/theme';
 import AddToCartButton from '../AddToCartButton';
 
 
-class Listing extends React.PureComponent {
-	render() {
-		return (
-			<View style={styles.root}>
+const Listing = (props:any) => {
+	return(
+			<View style = { styles.root } >
 				<View style={styles.imageWrapper}>
-					<TouchableOpacity onPress={this.props.onViewFn}>
-						{this.props.image ? <Image source={{ uri: this.props.image }} style={styles.image} /> : null}
+					<TouchableOpacity onPress={props.onViewFn}>
+						{props.image ? <Image source={{ uri: props.image }} style={styles.image} /> : null}
 					</TouchableOpacity>
 				</View>
 				<View style={styles.infoWrapper}>
-					<TouchableOpacity onPress={this.props.onViewFn}>
-						<Text ellipsizeMode="tail" style={styles.title} numberOfLines={2} >{this.props.title}</Text>
+					<TouchableOpacity onPress={props.onViewFn}>
+						<Text ellipsizeMode="tail" style={styles.title} numberOfLines={2} >{props.title}</Text>
 					</TouchableOpacity>
 					<View style={styles.addToCartWrapper}>
 						<View>
-							<Text ellipsizeMode="tail" style={styles.category} numberOfLines={1}>{this.props.category}</Text>
-							<Text ellipsizeMode="tail" style={styles.price}><Text style={styles.currency}>AED</Text> {this.props.price}</Text>
+							<Text ellipsizeMode="tail" style={styles.category} numberOfLines={1}>{props.category}</Text>
+							<Text ellipsizeMode="tail" style={styles.price}><Text style={styles.currency}>AED</Text> {props.price}</Text>
 						</View>
-						<AddToCartButton onPress={this.props.addToCartFn}/>
+						<AddToCartButton onPress={props.addToCartFn}/>
 					</View>
 				</View>
 			</View>
 		)
-	}
 }
 
 const styles = StyleSheet.create({
@@ -100,4 +98,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default Listing;
+export default React.memo(Listing);
